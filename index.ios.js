@@ -25,12 +25,20 @@ import hardCodedStationsList from './components/stations';
 import StationsMenu from './components/stationsmenu';
 import DestinationsMenu from './components/destinationsmenu';
 
+import ExperimentalButton from './components/example_button'
+ 
 console.ignoredYellowBox = ['Warning: BackAndroid'];
 
 export default class bart_buddy_mobile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      region: {
+        latitude: 37.774836,
+        longitude: -122.224175,
+        latitudeDelta: 0.3,
+        longitudeDelta: 0.82
+      },
       lat: 0,
       long: 0,
       isLoading: false,
@@ -41,6 +49,20 @@ export default class bart_buddy_mobile extends Component {
     this.updateRoute = this.updateRoute.bind(this);
     this.updateStation = this.updateStation.bind(this);
   }
+  
+  experimentalFunction() {
+    this.setState({
+      region: {
+      latitude: 37.004836,
+      longitude: -122.224175,
+      latitudeDelta: 0.003,
+      longitudeDelta: 0.0082
+      }
+    })
+    alert("index.ios.js: \'Use My Location\' button pressed");
+    //getCurrentPosition((data) => {alert(data)});
+  }
+  
 
   updateRoute(data) {
     alert(`Destination: Parent Component = ${data}`);
@@ -59,17 +81,14 @@ export default class bart_buddy_mobile extends Component {
   }
 
   render() {
-    const region = {
-      latitude: 37.774836,
-      longitude: -122.224175,
-      latitudeDelta: 0.4,
-      longitudeDelta: 0.52
-    }
-    return ( 
+
+    return (
+
       <View style={styles.container}>
         <MenuContext style={{ flex: 1 }}>        
-          <MapContainer region={region} />
+          <MapContainer region={this.state.region} />
         </MenuContext>
+        <ExperimentalButton />
         <Text style={styles.welcome}>
           BART Buddy
         </Text>
